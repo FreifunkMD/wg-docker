@@ -28,6 +28,8 @@ The image will require some variables and parameters to be set in order to run:
 
 It is designed to be run like this when in interactive mode:
 ```
+modprobe ip6_tables
+modprobe wireguard
 docker run -a stdin -a stdout -a stderr -it --rm --name wg \
 --network host \
 --cap-add=NET_ADMIN \

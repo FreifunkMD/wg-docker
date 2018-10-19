@@ -4,7 +4,7 @@ if [ -z $APT_PROXY_PORT ] ; then
   APT_PROXY_PORT=$1
 fi
 if [ -z "${HOST_IP}" ]; then
-  HOST_IP=$(route -n | awk '/^0.0.0.0/ {print $2}')
+  HOST_IP=$(ip route | awk '/^default/ {print $3}')
 fi
 timeout 1 bash -c 'cat < /dev/null > /dev/tcp/${HOST_IP}/${APT_PROXY_PORT}'
 if [ $? -eq 0 ]; then
