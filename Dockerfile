@@ -11,8 +11,10 @@ RUN set -ex \
     && apk --no-cache add \
         ca-certificates \
         build-base \
+        libmnl-dev \
+        git \
+        # TODO: probably not needed, since kernel module is already installed on host:
         linux-vanilla-dev \
-        libmnl-dev git \
     # grab desired wireguard version
     && wget https://git.zx2c4.com/WireGuard/snapshot/WireGuard-${WIREGUARD_VER}.tar.xz -O /wireguard.tar.xz \
     # extract with custom folder name
@@ -27,7 +29,7 @@ RUN set -ex \
     # extract with custom folder name
     && mkdir /babeld \
     && tar -xvf /babeld.tar.gz -C /babeld --strip-components=1 \
-    # make babeld
+    # build babeld
     && make -C /babeld \
     && make -C /babeld install \
     # grab and build wg-broker
@@ -70,6 +72,7 @@ COPY scripts /scripts
 RUN set -ex \
     # install run dependencies
     && apk --no-cache add \
+        # TODO: does the running container need ca-certificates?
         ca-certificates \
         libnl3 \
         json-c \
@@ -80,7 +83,7 @@ RUN set -ex \
 # copy scripts to container
 COPY scripts /scripts
 
-# copy built binaries from build container
+# copy built binaries and config from build container
 COPY --from=build /usr/bin/wg /usr/bin/wg
 COPY --from=build /usr/share/man/man8/wg.8 /usr/share/man/man8/wg.8
 COPY --from=build /usr/bin/wg-quick /usr/bin/wg-quick
