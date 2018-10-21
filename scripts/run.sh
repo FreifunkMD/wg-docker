@@ -1,24 +1,14 @@
-#!/bin/bash
+#!/bin/sh
 set -x
 
 if [[ -z $WGSECRET ]] || [[ -z $NEXTNODE ]] || [[ -z $CLIENTPREFIX ]] ||
-  [[ -z $NODEPREFIX ]] || [[ -z $WHOLENET ]] 
+  [[ -z $NODEPREFIX ]] || [[ -z $WHOLENET ]]
 then
   echo WGSECRET, NEXTNODE, CLIENTPREFIX, NODEPREFIX, WHOLENET must be defined. Check your env-file.
   exit
 fi
-
-/scripts/detect-apt-proxy.sh
-
-# Install Wireguard. This has to be done dynamically since the kernel
-# module depends on the host kernel version.
-apt update
-apt install -y linux-headers-$(uname -r)
-apt install -y wireguard
-
 #setup ip rules
 /scripts/iprules $NODEPREFIX $CLIENTPREFIX
-
 
 echo $WGSECRET >/etc/wg-broker/secret
 
@@ -42,9 +32,8 @@ babeld -D  -C "ipv6-subtrees true" \
   -C "redistribute ip 2000::/3 allow" \
   -C "redistribute local deny"
 
-
 mmfd &
-/usr/local/bin/l3roamd -s /var/run/l3roamd.sock -p $NODEPREFIX -p $CLIENTPREFIX -m ens14 -m babel-vpn-1374 -t 11 -a $OWNIP -4 0:0:0:0:0:ffff::/96 &
+l3roamd -s /var/run/l3roamd.sock -p $NODEPREFIX -p $CLIENTPREFIX -m ens14 -m babel-vpn-1374 -t 11 -a $OWNIP -4 0:0:0:0:0:ffff::/96 &
 
 # start wireguard broker
 wg-broker-server &
@@ -67,5 +56,5 @@ if [[ ! -n ${DEBUG} ]]; then
   sleep infinity &
   wait $!
 else
-  /bin/bash
+  /bin/sh
 fi
