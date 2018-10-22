@@ -1,7 +1,6 @@
 DEBUG=true
 
 WGSECRET=ZGVpeGFpdGhvb1BoZWlqM2F1Nm1vb3Nob2gyYWhtYWgK
-HOST_IP=192.168.13.9
 
 WHOLENET=2a06:8187:fb00::/40 # this is the whole net-wide prefix
 NODEPREFIX=2a06:8187:fbab:1::/64 # the prefix for infrastructure. This must be in $WHOLENET

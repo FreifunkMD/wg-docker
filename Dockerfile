@@ -65,8 +65,6 @@ FROM alpine:latest
 
 LABEL maintainer="Jasper Orschulko <jasper@fancydomain.eu>"
 
-ARG HOST_IP=
-
 RUN set -ex \
     # install run dependencies
     && apk --no-cache add \
