@@ -13,8 +13,8 @@ RUN set -ex \
         build-base \
         libmnl-dev \
         git \
-        # TODO: probably not needed, since kernel module is already installed on host:
-        linux-vanilla-dev \
+        wget \
+    && update-ca-certificates \
     # grab desired wireguard version
     && wget https://git.zx2c4.com/WireGuard/snapshot/WireGuard-${WIREGUARD_VER}.tar.xz -O /wireguard.tar.xz \
     # extract with custom folder name
@@ -22,7 +22,7 @@ RUN set -ex \
     && tar -xvf /wireguard.tar.xz -C /wireguard --strip-components=1 \
     # only build wg-tools, kernel module has to be installed on host
     && make -C /wireguard/src tools \
-    && make -C /wireguard/src/tools install \
+    && make -C /wireguard/src/tools WITH_WGQUICK="yes" install \
     && make -C /wireguard/src/tools clean \
     # grab the desired babeld version 
     && wget https://www.irif.fr/~jch/software/files/babeld-${BABELD_VER}.tar.gz -O /babeld.tar.gz \
@@ -76,6 +76,7 @@ RUN set -ex \
         json-c \
         libmnl \
         iptables \
+    && update-ca-certificates \
     && mkdir /etc/wg-broker
 
 # copy scripts to container
