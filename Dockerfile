@@ -67,8 +67,6 @@ LABEL maintainer="Jasper Orschulko <jasper@fancydomain.eu>"
 
 ARG HOST_IP=
 
-COPY scripts /scripts
-
 RUN set -ex \
     # install run dependencies
     && apk --no-cache add \
