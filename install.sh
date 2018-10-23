@@ -36,7 +36,7 @@ EOF
 )
 echo 'building and installing kernel module...'
 (
-    rm -rf "/usr/src/wireguard-${WIREGUARD_VERSION}/src"
+    rm -rf "/usr/src/wireguard-${WIREGUARD_VERSION}"
     dkms add "wireguard/${WIREGUARD_VERSION}"
     dkms build "wireguard/${WIREGUARD_VERSION}"
     dkms install "wireguard/${WIREGUARD_VERSION}"
