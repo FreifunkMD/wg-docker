@@ -1,7 +1,8 @@
 #!/bin/bash
 
 WIREGUARD_VERSION='0.0.20181007'
-BABELD_VERSION='1.8.3'
+# pull from babeld fork for now
+#BABELD_VERSION='1.8.3'
 
 # Make sure only root can run our script
 if [ "$(id -u)" != "0" ]; then
@@ -43,7 +44,9 @@ echo 'building and installing kernel module...'
 )
 echo 'building docker container...'
 (
-docker build -t wg-docker:"${WIREGUARD_VERSION}" --build-arg WIREGUARD_VER="${WIREGUARD_VERSION}" --build-arg BABELD_VER="${BABELD_VERSION}" .
+# pull from babeld fork for now
+#docker build -t wg-docker:"${WIREGUARD_VERSION}" --build-arg WIREGUARD_VER="${WIREGUARD_VERSION}" --build-arg BABELD_VER="${BABELD_VERSION}" .
+docker build -t wg-docker:"${WIREGUARD_VERSION}" --build-arg WIREGUARD_VER="${WIREGUARD_VERSION}" .
 )
 echo 'clean up...'
 (

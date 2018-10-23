@@ -4,7 +4,7 @@ FROM alpine:latest AS build
 LABEL maintainer="Jasper Orschulko <jasper@fancydomain.eu>"
 
 ARG WIREGUARD_VER=
-ARG BABELD_VER=
+#ARG BABELD_VER=
 
 RUN set -ex \
     # install build tools and dependencies for wireguard
@@ -24,11 +24,13 @@ RUN set -ex \
     && make -C /wireguard/src tools \
     && make -C /wireguard/src/tools WITH_WGQUICK="yes" install \
     && make -C /wireguard/src/tools clean \
-    # grab the desired babeld version 
-    && wget https://www.irif.fr/~jch/software/files/babeld-${BABELD_VER}.tar.gz -O /babeld.tar.gz \
-    # extract with custom folder name
-    && mkdir /babeld \
-    && tar -xvf /babeld.tar.gz -C /babeld --strip-components=1 \
+#    # grab the desired babeld version 
+#    && wget https://www.irif.fr/~jch/software/files/babeld-${BABELD_VER}.tar.gz -O /babeld.tar.gz \
+#    # extract with custom folder name
+#    && mkdir /babeld \
+#    && tar -xvf /babeld.tar.gz -C /babeld --strip-components=1 \
+    # pull babeld from fork for now
+    && git clone --branch docker https://github.com/christf/babeld.git /babeld \
     # build babeld
     && make -C /babeld \
     && make -C /babeld install \
@@ -74,6 +76,8 @@ RUN set -ex \
         json-c \
         libmnl \
         iptables \
+        ip6tables \
+        socat \
     && update-ca-certificates \
     && mkdir /etc/wg-broker
 
