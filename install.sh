@@ -22,6 +22,7 @@ echo 'extracting...'
 (
     mkdir "/tmp/wireguard-${WIREGUARD_VERSION}"
     tar xvf "/tmp/wireguard-${WIREGUARD_VERSION}.tar.xz" -C "/tmp/wireguard-${WIREGUARD_VERSION}" --strip-components 1
+    rm -rf "/usr/src/wireguard-${WIREGUARD_VERSION}"
     mv "/tmp/wireguard-${WIREGUARD_VERSION}/src" "/usr/src/wireguard-${WIREGUARD_VERSION}"
 )
 echo 'creating dkms config file...'
@@ -36,7 +37,6 @@ EOF
 )
 echo 'building and installing kernel module...'
 (
-    rm -rf "/usr/src/wireguard-${WIREGUARD_VERSION}"
     dkms add "wireguard/${WIREGUARD_VERSION}"
     dkms build "wireguard/${WIREGUARD_VERSION}"
     dkms install "wireguard/${WIREGUARD_VERSION}"
