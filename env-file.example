@@ -19,4 +19,36 @@ NEXTNODE=fda9:26e:5805:bab0::1
 # assign this address to one of the docker hosts nic 
 OWNIP=fda9:26e:5805:bab1:aaaa::1
 
+# tcp port where the broker listens for connections
+BROKERPORT=40000
+
+# start of udp portrange accepting wireguard connections
+STARTPORT=40000
+
+# end of udp portrange accepting wireguard connections
+ENDPORT=41000
+
+# control port of local babeld
+BABELPORT=33123
+
+#MTU of the VPN in this network
+MTU=1374
+
+# wireguard command
+WG="wg"
+
+# accepting inbound wireguard connections on this interface
+WAN="eth0"
+
+# allow MAXCONNECTIONS concurrent vpn connections
+MAXCONNECTIONS=150
+
+# the secret contained in $WGSECRET will be written to this file in the run
+# file and read from this file in wg-broker
+# TODO: This could be internal to the image
+PRIVATEKEY=/etc/wg-broker/secret
+
+# this is the l3roamd socket
+# TODO: This could be internal to the image
+L3ROAMDSOCK=/var/run/l3roamd.sock
 

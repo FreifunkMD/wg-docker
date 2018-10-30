@@ -20,7 +20,7 @@ apt install -y wireguard
 /scripts/iprules $NODEPREFIX $CLIENTPREFIX
 
 
-echo $WGSECRET >/etc/wg-broker/secret
+echo $WGSECRET >$PRIVATEKEY
 
 #start babeld
 babeld -D  -C "ipv6-subtrees true" \

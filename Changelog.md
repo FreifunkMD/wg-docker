@@ -1,6 +1,7 @@
 # Changelog for wireguard docker image
 ## 2018-10-30
 * upgrade l3roamd to allow dynamically adding mesh devices
+* populate environment with the settings for wg-broker
 
 ## 2018-10-29
 * use iputils in arp-proxy to get rid ouf Error "route: command not found"
