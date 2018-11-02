@@ -1,6 +1,6 @@
 #!/bin/bash
 
-WIREGUARD_VERSION='0.0.20181007'
+WIREGUARD_VERSION='0.0.20181018'
 # pull from babeld fork for now
 #BABELD_VERSION='1.8.3'
 
@@ -46,7 +46,7 @@ echo 'building docker container...'
 (
 # pull from babeld fork for now
 #docker build -t wg-docker:"${WIREGUARD_VERSION}" --build-arg WIREGUARD_VER="${WIREGUARD_VERSION}" --build-arg BABELD_VER="${BABELD_VERSION}" .
-docker build -t wg-docker:"${WIREGUARD_VERSION}" --build-arg WIREGUARD_VER="${WIREGUARD_VERSION}" .
+docker build -t wg-docker:latest -t wg-docker:"${WIREGUARD_VERSION}" --build-arg WIREGUARD_VER="${WIREGUARD_VERSION}" .
 )
 echo 'clean up...'
 (

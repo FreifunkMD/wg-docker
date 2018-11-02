@@ -90,15 +90,15 @@ COPY --from=build /usr/bin/wg /usr/bin/wg
 COPY --from=build /usr/share/man/man8/wg.8 /usr/share/man/man8/wg.8
 COPY --from=build /usr/bin/wg-quick /usr/bin/wg-quick
 COPY --from=build /usr/share/man/man8/wg-quick.8 /usr/share/man/man8/wg-quick.8
-COPY --from=build /usr/local/bin/babeld /usr/bin/babeld
-COPY --from=build /usr/local/share/man/man8/babeld.8 /usr/share/man/man8/babeld.8
-COPY --from=build /usr/sbin/wg-broker-server /usr/bin/wg-broker-server
+COPY --from=build /usr/local/bin/babeld /usr/local/bin/babeld
+COPY --from=build /usr/local/share/man/man8/babeld.8 /usr/local/share/man/man8/babeld.8
+COPY --from=build /usr/sbin/wg-broker-server /usr/sbin/wg-broker-server
 COPY --from=build /etc/wg-broker/config /etc/wg-broker/config
-COPY --from=build /usr/local/bin/l3roamd /usr/bin/l3roamd
+COPY --from=build /usr/local/bin/l3roamd /usr/local/bin/l3roamd
 # TODO: copy all .so files, .h and pkgconfig files or is this sufficient? Do we even need libbabelhelper after building?
-COPY --from=build /usr/local/lib/libbabelhelper.so /usr/lib/libbabelhelper.so
-COPY --from=build /usr/local/lib/libbabelhelper.so.0 /usr/lib/libbabelhelper.so.0
-COPY --from=build /usr/local/bin/mmfd /usr/bin/mmfd
+COPY --from=build /usr/local/lib/libbabelhelper.so /usr/local/lib/libbabelhelper.so
+COPY --from=build /usr/local/lib/libbabelhelper.so.0 /usr/local/lib/libbabelhelper.so.0
+COPY --from=build /usr/local/bin/mmfd /usr/local/bin/mmfd
 
 ENTRYPOINT ["/scripts/run.sh"]
 CMD []
