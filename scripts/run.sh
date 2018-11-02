@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/bin/bash
+
 set -x
 
 if [[ -z $WGSECRET ]] || [[ -z $NEXTNODE ]] || [[ -z $CLIENTPREFIX ]] ||
@@ -7,8 +8,10 @@ then
   echo WGSECRET, NEXTNODE, CLIENTPREFIX, NODEPREFIX, WHOLENET must be defined. Check your env-file.
   exit
 fi
+
 #setup ip rules
 /scripts/iprules $NODEPREFIX $CLIENTPREFIX
+
 
 echo $WGSECRET >/etc/wg-broker/secret
 
@@ -32,8 +35,9 @@ babeld -D  -C "ipv6-subtrees true" \
   -C "redistribute ip 2000::/3 allow" \
   -C "redistribute local deny"
 
+
 mmfd &
-l3roamd -s /var/run/l3roamd.sock -p $NODEPREFIX -p $CLIENTPREFIX -m ens14 -m babel-vpn-1374 -t 11 -a $OWNIP -4 0:0:0:0:0:ffff::/96 &
+/usr/local/bin/l3roamd -s /var/run/l3roamd.sock -p $NODEPREFIX -p $CLIENTPREFIX -m ens14 -m babel-vpn-1374 -t 11 -a $OWNIP -4 0:0:0:0:0:ffff::/96 &
 
 # start wireguard broker
 wg-broker-server &
@@ -56,5 +60,5 @@ if [[ ! -n ${DEBUG} ]]; then
   sleep infinity &
   wait $!
 else
-  /bin/sh
+  /bin/bash
 fi
