@@ -1,0 +1,18 @@
+#!/bin/bash
+
+modprobe ip6table_filter
+modprobe ip6_tables
+modprobe wireguard
+
+ip -6 r d default
+ip -6 r a default via fe80::1 dev eth0 src 2a01:4f8:1c1c:71b5::1
+
+docker run -a stdin -a stdout -a stderr -it --rm --name wg \
+   --network host \
+   --cap-add=NET_ADMIN \
+   --device /dev/net/tun:/dev/net/tun \
+   --env-file ./env-file \
+   --sysctl net.ipv6.conf.all.forwarding=1 \
+   --sysctl net.ipv6.conf.all.accept_redirects=0 \
+   --sysctl net.ipv4.conf.all.rp_filter=0 wg-docker:latest
+

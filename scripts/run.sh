@@ -1,20 +1,13 @@
 #!/bin/bash
+
 set -x
 
 if [[ -z $WGSECRET ]] || [[ -z $NEXTNODE ]] || [[ -z $CLIENTPREFIX ]] ||
-  [[ -z $NODEPREFIX ]] || [[ -z $WHOLENET ]] 
+  [[ -z $NODEPREFIX ]] || [[ -z $WHOLENET ]]
 then
   echo WGSECRET, NEXTNODE, CLIENTPREFIX, NODEPREFIX, WHOLENET must be defined. Check your env-file.
   exit
 fi
-
-/scripts/detect-apt-proxy.sh
-
-# Install Wireguard. This has to be done dynamically since the kernel
-# module depends on the host kernel version.
-apt update
-apt install -y linux-headers-$(uname -r)
-apt install -y wireguard
 
 #setup ip rules
 /scripts/iprules $NODEPREFIX $CLIENTPREFIX
