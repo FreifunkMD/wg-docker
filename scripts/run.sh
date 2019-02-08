@@ -22,8 +22,7 @@ apt install -y wireguard
 
 echo $WGSECRET >$PRIVATEKEY
 
-rm -f /var/run/babeld.pid
-babeld -D  -C "ipv6-subtrees true" \
+babeld -D -I "" -C "ipv6-subtrees true" \
   -C "reflect-kernel-metric true" \
   -C "export-table 10" \
   -C "import-table 11" \
