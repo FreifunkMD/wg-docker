@@ -42,7 +42,7 @@ babeld -D -I "" -C "ipv6-subtrees true" \
   -C "redistribute local deny"
 
 
-ip -6 a a $OWNIP/64 dev eth0
+ip -6 a a ${OWNIP}/64 dev eth0
 
 mmfd &
 /usr/local/bin/l3roamd -s /var/run/l3roamd.sock -p $NODEPREFIX -p $CLIENTPREFIX -m babeldummydne -t 11 -a $OWNIP -4 0:0:0:0:0:ffff::/96 &
