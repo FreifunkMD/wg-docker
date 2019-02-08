@@ -22,7 +22,7 @@ apt install -y wireguard
 
 echo $WGSECRET >$PRIVATEKEY
 
-#start babeld
+rm -f /var/run/babeld.pid
 babeld -D  -C "ipv6-subtrees true" \
   -C "reflect-kernel-metric true" \
   -C "export-table 10" \
@@ -43,8 +43,10 @@ babeld -D  -C "ipv6-subtrees true" \
   -C "redistribute local deny"
 
 
+ip -6 a a $OWNIP/64 dev eth0
+
 mmfd &
-/usr/local/bin/l3roamd -s /var/run/l3roamd.sock -p $NODEPREFIX -p $CLIENTPREFIX -m ens14 -m babel-vpn-1374 -t 11 -a $OWNIP -4 0:0:0:0:0:ffff::/96 &
+/usr/local/bin/l3roamd -s /var/run/l3roamd.sock -p $NODEPREFIX -p $CLIENTPREFIX -m babeldummydne -t 11 -a $OWNIP -4 0:0:0:0:0:ffff::/96 &
 
 # start wireguard broker
 wg-broker-server &
@@ -69,3 +71,4 @@ if [[ ! -n ${DEBUG} ]]; then
 else
   /bin/bash
 fi
+

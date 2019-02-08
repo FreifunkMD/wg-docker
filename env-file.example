@@ -17,6 +17,7 @@ CLIENTPREFIX=fda9:26e:5805:bab0::/64
 NEXTNODE=fda9:26e:5805:bab0::1
 
 # assign this address to one of the docker hosts nic 
+# BUT NOT TO docker0. How about eth0?
 OWNIP=fda9:26e:5805:bab1:aaaa::1
 
 # tcp port where the broker listens for connections
