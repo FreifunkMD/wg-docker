@@ -1,0 +1,16 @@
+version: "3"
+services:
+  wg:
+    image: klausdieter371/wg-docker
+    network_mode: "host"
+    privileged: true
+    cap_add: 
+      - NET_ADMIN
+    devices: 
+      - /dev/net/tun:/dev/net/tun
+    sysctls:
+      - net.ipv6.conf.all.forwarding=1
+      - net.ipv6.conf.all.accept_redirects=0
+      - net.ipv4.conf.all.rp_filter=0
+    restart: unless-stopped
+    env_file: /root/wg-docker-env
