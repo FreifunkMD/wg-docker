@@ -13,6 +13,12 @@ NODEPREFIX=fda9:26e:5805:bab1::/64
 # the prefix in which the clients pick their address. This must be in $WHOLENET
 CLIENTPREFIX=fda9:26e:5805:bab0::/64 
 
+# the clat-prefix as defined in site.conf
+CLATPREFIX=fdff:ffff:ffff::/48
+
+# the plat-prefix as defined in site.conf
+PLATPREFIX=fdff:ffff:fffe::/48
+
 # the next-node address according to site.conf
 NEXTNODE=fda9:26e:5805:bab0::1
 

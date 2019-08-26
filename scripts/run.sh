@@ -34,8 +34,10 @@ babeld -D -I "" -C "ipv6-subtrees true" \
   -C "default rtt-min 25" \
   -C "out ip $NEXTNODE/128 deny" \
   -C "redistribute ip $NEXTNODE/128 deny" \
-  -C "redistribute ip $CLIENTPREFIX eq 128  allow" \
-  -C "redistribute ip $NODEPREFIX eq 128  allow" \
+  -C "redistribute ip $CLIENTPREFIX eq 128 allow" \
+  -C "redistribute ip $CLATPREFIX eq 96 allow" \
+  -C "redistribute ip $PLATPREFIX eq 96 allow" \
+  -C "redistribute ip $NODEPREFIX eq 128 allow" \
   -C "redistribute src-ip $WHOLENET ip 2000::/3 allow" \
   -C "redistribute ip ::/0 allow" \
   -C "redistribute ip 2000::/3 allow" \
