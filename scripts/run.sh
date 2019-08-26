@@ -16,8 +16,7 @@ apt update
 apt install -y linux-headers-$(uname -r)
 apt install -y wireguard
 
-#setup ip rules
-/scripts/iprules $NODEPREFIX $CLIENTPREFIX
+/scripts/iprules $NODEPREFIX $CLIENTPREFIX $CLATPREFIX $PLATPREFIX
 
 
 echo $WGSECRET >$PRIVATEKEY
@@ -50,7 +49,6 @@ ip -6 a a ${OWNIP}/64 dev eth0
 mmfd -s /var/run/mmfd.sock &
 /usr/local/bin/l3roamd -s /var/run/l3roamd.sock -p $NODEPREFIX -p $CLIENTPREFIX -m babeldummydne -t 11 -a $OWNIP -4 0:0:0:0:0:ffff::/96 &
 
-# start wireguard broker
 wg-broker-server &
 
 # Handle shutdown behavior

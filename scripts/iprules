@@ -1,11 +1,10 @@
 #!/bin/bash
-set -x
-NODEPREFIX=$1
-CLIENTPREFIX=$2
-ip -6 rule add to $NODEPREFIX lookup 10
-ip -6 rule add to $CLIENTPREFIX lookup 10
-ip -6 rule add from $NODEPREFIX lookup 10
-ip -6 rule add from $CLIENTPREFIX lookup 10
+
+for prefix in $@
+do
+  ip -6 rule add to $prefix lookup 10
+  ip -6 rule add from $prefix lookup 10
+done
 
 #root@gw02:/etc/wireguard# ip -6 ru s
 #0:	from all lookup local 
