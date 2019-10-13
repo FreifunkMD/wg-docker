@@ -51,6 +51,11 @@ mmfd -s /var/run/mmfd.sock &
 
 wg-broker-server &
 
+# we wait until mmfd is up and then start routing respondd multicast traffic
+# through the mmfd interface
+sleep 1
+ip -6 r add ff05::2:1001/128 dev mmfd0 table local
+
 # Handle shutdown behavior
 finish () {
     killall mmfd
