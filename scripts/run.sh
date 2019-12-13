@@ -23,7 +23,7 @@ echo $WGSECRET >$PRIVATEKEY
 babelif=""
 for i in babeldummydne $MESHIFS
 do
-  babelif="$babelif -C interface $i type wired rxcost 10 update-interval 60"
+  babelif="$babelif -C \"interface $i type wired rxcost 10 update-interval 60\""
 done
 
 babeld -D -I "" -C "ipv6-subtrees true" \
