@@ -58,4 +58,7 @@ PRIVATEKEY=/etc/wg-broker/secret
 # this is the l3roamd socket
 # TODO: This could be internal to the image
 L3ROAMDSOCK=/var/run/l3roamd.sock
+MMFDSOCK=/var/run/mmfd.sock
 
+# Mesh interfaces are added to babeld and l3roamd
+MESHIFS="backend-bab1 backend-bab2"
