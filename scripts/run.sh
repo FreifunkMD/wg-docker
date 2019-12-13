@@ -48,8 +48,6 @@ babeld -D -I "" -C "ipv6-subtrees true" \
   -C "install pref-src $OWNIP" \
   $babelif
 
-ip -6 a a ${OWNIP}/64 dev eth0
-
 mmfd -s /var/run/mmfd.sock &
 l3roamdif=""
 for i in babeldummydne $MESHIFS
