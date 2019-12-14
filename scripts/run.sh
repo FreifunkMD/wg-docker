@@ -20,18 +20,13 @@ apt install -y wireguard
 
 
 echo $WGSECRET >$PRIVATEKEY
-babelif=""
-for i in babeldummydne $MESHIFS
-do
-  babelif="$babelif -C \"interface $i type wired rxcost 10 update-interval 60\""
-done
-
 babeld -D -I "" -C "ipv6-subtrees true" \
   -C "reflect-kernel-metric true" \
   -C "export-table 10" \
   -C "import-table 11" \
   -C "import-table 12" \
   -C "local-port-readwrite 33123" \
+  -C "interface babeldummydne type wired rxcost 10 update-interval 60" \
   -C "default enable-timestamps true" \
   -C "default max-rtt-penalty 96" \
   -C "default rtt-min 25" \
@@ -46,14 +41,21 @@ babeld -D -I "" -C "ipv6-subtrees true" \
   -C "redistribute ip 2000::/3 allow" \
   -C "redistribute local deny" \
   -C "install pref-src $OWNIP" \
-  $babelif
+$(for i in $MESHIFS; do echo -n " -C \"interface $i type wired rxcost 10 update-interval 60\""; done)
 
-mmfd -s /var/run/mmfd.sock &
+mmfdif=""
+for i in $MESHIFS
+do
+  mmfdif="$mmfdif -i $i"
+done
+mmfd -s /var/run/mmfd.sock $mmfdif &
+
 l3roamdif=""
-for i in babeldummydne $MESHIFS
+for i in $MESHIFS
 do
   l3roamdif="$l3roamdif -m $i"
 done
+
 /usr/local/bin/l3roamd -s /var/run/l3roamd.sock -p $NODEPREFIX -p $CLIENTPREFIX $l3roamdif -t 11 -a $OWNIP -4 0:0:0:0:0:ffff::/96 &
 
 wg-broker-server &
