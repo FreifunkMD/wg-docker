@@ -1,10 +1,13 @@
 #!/bin/bash
-set -x
+
+[[ $DEBUG == true ]] && set -x
 
 if [[ -z $WGSECRET ]] || [[ -z $NEXTNODE ]] || [[ -z $CLIENTPREFIX ]] ||
-  [[ -z $NODEPREFIX ]] || [[ -z $WHOLENET ]] 
+  [[ -z $NODEPREFIX ]] || [[ -z $WHOLENET ]]  || [[ -z $PLATPREFIX ]] ||
+  [[ -z $CLATPREFIX ]] || [[ -z $NODEPREFIX ]] || [[ -z $OWNIP ]] || 
+  [[ -z $PRIVATEKEY ]]
 then
-  echo WGSECRET, NEXTNODE, CLIENTPREFIX, NODEPREFIX, WHOLENET must be defined. Check your env-file.
+  echo PRIVATEKEY WGSECRET, NEXTNODE, CLIENTPREFIX, NODEPREFIX, WHOLENET, CLATPREFIX, PLATPREFIX, NODEPREFIX, OWNIP must be defined. Check your env-file.
   exit
 fi
 
@@ -20,13 +23,21 @@ apt install -y wireguard
 
 
 echo $WGSECRET >$PRIVATEKEY
+
+babelifs=""
+if [[ -z $MESHIFS ]] 
+then
+  babelifs=babeldummydne
+else
+  babelifs=$MESHIFS
+fi
+
 babeld -D -I "" -C "ipv6-subtrees true" \
   -C "reflect-kernel-metric true" \
   -C "export-table 10" \
   -C "import-table 11" \
   -C "import-table 12" \
   -C "local-port-readwrite 33123" \
-  -C "interface babeldummydne type wired rxcost 10 update-interval 60" \
   -C "default enable-timestamps true" \
   -C "default max-rtt-penalty 96" \
   -C "default rtt-min 25" \
@@ -41,7 +52,10 @@ babeld -D -I "" -C "ipv6-subtrees true" \
   -C "redistribute ip 2000::/3 allow" \
   -C "redistribute local deny" \
   -C "install pref-src $OWNIP" \
-$(for i in $MESHIFS; do echo -n " -C \"interface $i type wired rxcost 10 update-interval 60\""; done)
+"$(for i in $babelifs
+do
+  echo -n " -C \"interface $i type wired rxcost 10 update-interval 60\""
+done)"
 
 mmfdif=""
 for i in $MESHIFS
