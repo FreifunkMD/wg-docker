@@ -51,11 +51,12 @@ babeld -D -I "" -C "ipv6-subtrees true" \
   -C "redistribute ip ::/0 allow" \
   -C "redistribute ip 2000::/3 allow" \
   -C "redistribute local deny" \
-  -C "install pref-src $OWNIP" \
-"$(for i in $babelifs
+  -C "install pref-src $OWNIP"  babeldummydne
+
+for i in $babelifs
 do
-  echo -n " -C \"interface $i type wired rxcost 10 update-interval 60\""
-done)"
+  (echo  "interface $i type wired rxcost 10 update-interval 60 "; sleep 0.1;  echo quit)  | nc ::1  33123
+done
 
 mmfdif=""
 for i in $MESHIFS

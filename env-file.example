@@ -61,4 +61,4 @@ L3ROAMDSOCK=/var/run/l3roamd.sock
 MMFDSOCK=/var/run/mmfd.sock
 
 # Mesh interfaces are added to babeld and l3roamd
-MESHIFS="backend-bab1 backend-bab2"
+MESHIFS=backend-bab1 backend-bab2
