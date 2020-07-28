@@ -50,7 +50,6 @@ babeld -D -I "" -C "ipv6-subtrees true" \
   -C "redistribute src-ip $WHOLENET ip 2000::/3 allow" \
   -C "redistribute ip ::/0 allow" \
   -C "redistribute ip 2000::/3 allow" \
-  -C "redistribute local deny" \
   -C "install pref-src $OWNIP"  babeldummydne
 
 for i in $babelifs

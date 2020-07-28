@@ -12,6 +12,9 @@ The image can be pulled from dockerhub:
 docker pull klausdieter371/wg-docker
 ```
 
+Babeld is built from the 1.9 branch such that it is compatible with the openwrt 
+package feed. This allows source-specific routes being transported properly.
+
 # Building the Image
 The build can make use of an apt cache.
 ```
