@@ -62,10 +62,59 @@ Ip -6 r a fe80::1 dev eth0 proto bird table 12
 on the docker host.
 
 
-
-
 When running with strace, the following capabilities should be added:
 ```
  --cap-add sys_admin --cap-add sys_ptrace 
 ```
+
+
+# runtime environment
+
+When running the container a bit of environment setup must happen:
+
+* set up ip address for main interface
+* Set up routing rules for the whole net 
+* Allowing traffic for mmfd, babeld and l3roamd
+* MSS Clamping to compensate pmtu breakage in the own net and on the internet
+
+```
+#!/bin/bash
+ip -6 r d default
+ip -6 r a default via fe80::1 dev eth0 src 2a01:4f8:1c1c:71b5::1
+
+# lookup clat prefix in freifunk routing table
+ip -6 ru a to fdff:ffff:ffff::/48 lookup 10
+ip -6 ru a to fdff:ffff:fffe::/48 lookup 10
+
+# reach the rest of the batman network
+ip -6 r a fda9:26e:5805::/64 dev backend-gw2 proto static
+
+ip -6 a a fda9:26e:5805:bab1:aaaa::1/64 dev eth0
+ip -6 r a fda9:26e:5805::2 dev backend-gw2 proto static t 12
+ip -6 r a fda9:26e:5805::2 dev backend-gw2 proto static t 10
+ip -6 r a 2000::/3 from fda9:26e:5805::/48 dev backend-gw2 proto static t 10
+ip -6 r a 2000::/3 from fda9:26e:5805::/48 dev backend-gw2 proto static t 12
+ip -6 r a fda9:26e:5805::/48 dev backend-gw2 proto static t 10
+ip -6 r a fda9:26e:5805::/48 dev backend-gw2 proto static t 12
+
+meshifs="babel-wg-+ backend-bab+"
+for i in $meshifs
+do
+ip6tables -I INPUT 1 -i $i -s fe80::/64  -p udp -m udp --dport 6696  -j ACCEPT
+ip6tables -I INPUT 1 -i $i -s fe80::/64  -p udp -m udp --dport 27275  -j ACCEPT
+ip6tables -I INPUT 1 -i $i -s fda9:026e:5805:bab1::/64  -p udp -m udp --dport 6696  -j ACCEPT
+ip6tables -I INPUT 1 -i $i -s fda9:026e:5805:bab1::/64  -p udp -m udp --dport 27275  -j ACCEPT
+ip6tables -I INPUT 1 -i $i -p udp -m udp --dport 5523  -j ACCEPT
+
+# MSS Clamping
+ip6tables -t mangle -A FORWARD -o $i -p tcp -m tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
+iptables -t mangle -A FORWARD -o $i -p tcp -m tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
+ip6tables -t mangle -A OUTPUT -o $i -p tcp -m tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
+iptables -t mangle -A OUTPUT -o $i -p tcp -m tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
+
+done
+
+exit 0
+```
+
 
