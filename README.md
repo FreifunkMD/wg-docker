@@ -19,12 +19,8 @@ package feed. This allows source-specific routes being transported properly.
 The build can make use of an apt cache.
 ```
 docker build . \
---tag wireguard:latest \
---build-arg APT_PROXY_PORT=3142 \
---build-arg HOST_IP=192.168.13.9
+--tag wireguard:latest
 ```
-Will start a build relying on a cache on 192.168.13.9 that is reachable on port 3142
-
 # Running a container
 
 The image will require some variables and parameters to be set in order to run:
