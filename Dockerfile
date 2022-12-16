@@ -14,7 +14,7 @@ echo "deb http://deb.debian.org/debian/ unstable main" > /etc/apt/sources.list.d
 echo "deb http://dl.ffm.freifunk.net/debian-packages/ sid main" > /etc/apt/sources.list.d/ffffm_babel.list && \
 printf 'Package: babeld \nPin: release a=sid\nPin-Priority: 150\n' > /etc/apt/preferences.d/limit-babeld_ffffm_sid && \
 printf 'Package: *\nPin: release a=unstable\nPin-Priority: 150\n' > /etc/apt/preferences.d/limit-unstable && \
-curl https://dl.ffm.freifunk.net/info@wifi-frankfurt.de.gpg.pub | apt-key add - && \
+curl -L https://dl.ffm.freifunk.net/info@wifi-frankfurt.de.gpg.pub -o /etc/apt/trusted.gpg.d/info@wifi-frankfurt.de.gpg && \
 apt-get update -y && \
 apt-get install -y wireguard babeld wg-broker l3roamd mmfd && \
 mkdir -p /etc/iproute2/rt_tables.d && \
