@@ -7,13 +7,10 @@ Docker Container running a Freifunk Gateway. It contains the following component
 * mmfd
 * l3roamd
 
-The image can be pulled from dockerhub:
+An image can be pulled from dockerhub:
 ```
 docker pull klausdieter371/wg-docker
 ```
-
-Babeld is built from the 1.9 branch such that it is compatible with the openwrt
-package feed. This allows source-specific routes being transported properly.
 
 # Building the Image
 
