@@ -12,11 +12,11 @@ The image can be pulled from dockerhub:
 docker pull klausdieter371/wg-docker
 ```
 
-Babeld is built from the 1.9 branch such that it is compatible with the openwrt 
+Babeld is built from the 1.9 branch such that it is compatible with the openwrt
 package feed. This allows source-specific routes being transported properly.
 
 # Building the Image
-The build can make use of an apt cache.
+
 ```
 docker build . \
 --tag wireguard:latest
@@ -60,7 +60,7 @@ on the docker host.
 
 When running with strace, the following capabilities should be added:
 ```
- --cap-add sys_admin --cap-add sys_ptrace 
+ --cap-add sys_admin --cap-add sys_ptrace
 ```
 
 
@@ -69,7 +69,7 @@ When running with strace, the following capabilities should be added:
 When running the container a bit of environment setup must happen:
 
 * set up ip address for main interface
-* Set up routing rules for the whole net 
+* Set up routing rules for the whole net
 * Allowing traffic for mmfd, babeld and l3roamd
 * MSS Clamping to compensate pmtu breakage in the own net and on the internet
 
