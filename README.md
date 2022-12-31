@@ -32,9 +32,7 @@ docker run -a stdin -a stdout -a stderr -it --rm --name wg \
 --device /dev/net/tun:/dev/net/tun \
 --env-file ./env-file \
 --privileged \
---sysctl net.ipv6.conf.all.forwarding=1 \
---sysctl net.ipv6.conf.all.accept_redirects=0 \
---sysctl net.ipv4.conf.all.rp_filter=0 ffmd/wg-docker
+ffmd/wg-docker
 ```
 
 The required settings are:
