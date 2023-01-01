@@ -7,24 +7,17 @@ Docker Container running a Freifunk Gateway. It contains the following component
 * mmfd
 * l3roamd
 
-The image can be pulled from dockerhub:
+An image can be pulled from dockerhub:
 ```
 docker pull klausdieter371/wg-docker
 ```
 
-Babeld is built from the 1.9 branch such that it is compatible with the openwrt 
-package feed. This allows source-specific routes being transported properly.
-
 # Building the Image
-The build can make use of an apt cache.
+
 ```
 docker build . \
---tag wireguard:latest \
---build-arg APT_PROXY_PORT=3142 \
---build-arg HOST_IP=192.168.13.9
+--tag wireguard:latest
 ```
-Will start a build relying on a cache on 192.168.13.9 that is reachable on port 3142
-
 # Running a container
 
 The image will require some variables and parameters to be set in order to run:
@@ -64,7 +57,7 @@ on the docker host.
 
 When running with strace, the following capabilities should be added:
 ```
- --cap-add sys_admin --cap-add sys_ptrace 
+ --cap-add sys_admin --cap-add sys_ptrace
 ```
 
 
@@ -73,7 +66,7 @@ When running with strace, the following capabilities should be added:
 When running the container a bit of environment setup must happen:
 
 * set up ip address for main interface
-* Set up routing rules for the whole net 
+* Set up routing rules for the whole net
 * Allowing traffic for mmfd, babeld and l3roamd
 * MSS Clamping to compensate pmtu breakage in the own net and on the internet
 

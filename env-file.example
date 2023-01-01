@@ -1,8 +1,6 @@
 DEBUG=true
 
 WGSECRET=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-HOST_IP=
-APT_PROXY_PORT=
 
 # this is the whole net-wide prefix
 WHOLENET=2a06:8187:fb00::/40 

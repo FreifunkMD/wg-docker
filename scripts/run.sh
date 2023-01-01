@@ -11,8 +11,6 @@ then
   exit
 fi
 
-/scripts/detect-apt-proxy.sh
-
 # Install Wireguard. This has to be done dynamically since the kernel
 # module depends on the host kernel version.
 apt update
