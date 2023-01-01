@@ -9,7 +9,7 @@ Docker Container running a Freifunk Gateway. It contains the following component
 
 An image can be pulled from dockerhub:
 ```
-docker pull klausdieter371/wg-docker
+docker pull ffmd/wg-docker
 ```
 
 # Building the Image
@@ -34,7 +34,7 @@ docker run -a stdin -a stdout -a stderr -it --rm --name wg \
 --privileged \
 --sysctl net.ipv6.conf.all.forwarding=1 \
 --sysctl net.ipv6.conf.all.accept_redirects=0 \
---sysctl net.ipv4.conf.all.rp_filter=0 klausdieter371/wg-docker
+--sysctl net.ipv4.conf.all.rp_filter=0 ffmd/wg-docker
 ```
 
 The required settings are:
